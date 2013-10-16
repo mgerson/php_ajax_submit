@@ -1,0 +1,59 @@
+<html>
+<head>
+<title>Processar dados do formulario sem refresh usando ajax e php</title>
+<script type="text/javascript" language="javascript" src="jquery-1.9.1.js"></script>
+
+<script type="text/javascript" language="javascript">
+$(function($) {
+	//criamos uma funcao para executar no evento submit do formulario (cujo id=formulario)
+	$("#formulario").submit(function() {
+		
+		var nome = $("#nome").val(); //definimos a variavel nome e atribuimos o valor do campo nome
+		$("#mensagem").html("");
+		var mensagem = $("#mensagem").val(); // div de resultado
+		
+		
+		//invocamos o arquivo php responsavel pelo tratamento de dados do formulario atravez do ajax, lembrando que o form tem metodo post
+		$.post('print_name.php', {nome: nome }, function(resposta) {//enviamos o parametro nome, com o valor da variavel nome criada acima
+				
+				
+				// Se a resposta é um erro
+				if (resposta == false) { //verifica se ocorreu algum erro e exibe-o
+					// Exibe o erro na div
+					$("#mensagem").html(resposta);
+				} 
+				
+				else {
+					
+					$("#mensagem").prepend("Meu nome &eacute; :<strong>"+ nome +"</strong>"); //exibe o nome na div mensagem
+					
+					
+					$("#nome").val(""); //limpamos o campo nome
+					
+				}
+		});
+	});
+});
+</script>
+</head>
+
+<body>
+<h1>Processar dados do formulario sem refresh usando ajax e php</h1>
+
+
+
+<div id="escrever">
+	<form id="formulario" action="javascript:func()" method="post">
+	    <strong>Digite seu nome:</strong> <br />
+        <input name="nome" type="text" id="nome" size="35" /> <br /><br />
+        
+        <input type="submit" value="Enviar" />
+        
+    </form>
+</div>
+
+<div id="mensagem">
+	
+</div>
+</body>
+</html>
